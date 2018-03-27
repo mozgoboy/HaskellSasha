@@ -26,3 +26,4 @@ first :: Conj->Conj
 first (a:as) = [a]
 remove :: Conj->Conj
 remove (a:as) = as
+hlzhclzxjkch
