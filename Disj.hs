@@ -3,13 +3,14 @@ data Literal = Var Int
              deriving (Show,Read,Eq)
 type Disj = [Literal]
 f :: Disj -> Disj -> Disj
-f [] _ = []
+f [] b = b
 f _ [] = []
 f [a] (b:bs) | a == snot b = bs
              | bs==[] =[b]
              | otherwise = [b] ++ (f [a] bs)
-f (a:as) (b:bs) | f [a] (b:bs) == (b:bs) = a : f as (b : bs)
-                | otherwise =  as ++ (f [a] (b:bs))
+f (a:as) (b:bs) | f [a] (b:bs) /= (b:bs) =  as ++ (f [a] (b:bs))
+                | test (a:as) (b:bs) ==False = (b:bs)
+                | otherwise =  a : f as (b : bs)
 
 
 
@@ -20,6 +21,9 @@ test _ [] = False
 test [a] (b:bs) | a == snot b = True
                 | bs== [] = False
                 | otherwise = test [a] bs
+test (a:as) (b:bs) | test [a] (b:bs) = True
+                   | otherwise = test as (b:bs)
+
 
 snot :: Literal->Literal
 snot (Var x) = (Not x)
