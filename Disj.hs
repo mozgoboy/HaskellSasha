@@ -1,18 +1,20 @@
 data Literal = Var Int
              | Not Int
              deriving (Show,Read,Eq)
-type Conj = [Literal]
-f :: Conj -> Conj -> Conj
+type Disj = [Literal]
+f :: Disj -> Disj -> Disj
 f [] _ = []
 f _ [] = []
 f [a] (b:bs) | a == snot b = bs
-             | bs== [] = [b]
-             | f [a] bs == remove bs = (b : (remove bs))
-             | otherwise = (b:bs)
+             | bs==[] =[b]
+             | otherwise = [b] ++ (f [a] bs)
+f (a:as) (b:bs) | f [a] (b:bs) == (b:bs) = a : f as (b : bs)
+                | otherwise =  as ++ (f [a] (b:bs))
 
 
 
-test::Conj->Conj->Bool
+
+test::Disj->Disj->Bool
 test [] _ = False
 test _ [] = False
 test [a] (b:bs) | a == snot b = True
@@ -22,7 +24,7 @@ test [a] (b:bs) | a == snot b = True
 snot :: Literal->Literal
 snot (Var x) = (Not x)
 snot (Not x) = (Var x)
-first :: Conj->Conj
+first :: Disj->Disj
 first (a:as) = [a]
-remove :: Conj->Conj
+remove :: Disj->Disj
 remove (a:as) = as
