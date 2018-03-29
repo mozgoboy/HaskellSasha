@@ -7,6 +7,9 @@ data Literal = Var Int
 
 type Disj = [Literal]
 
+
+
+
 snot :: Literal -> Literal
 snot (Var x) = (Not x)
 snot (Not x) = (Var x)
