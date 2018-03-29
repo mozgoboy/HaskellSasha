@@ -30,7 +30,7 @@ test [a] (b:bs) | a == snot b = True
 test (a:as) (b:bs) | test [a] (b:bs) = True
                    | otherwise = test as (b:bs)
 
-
+--commet--
 snot :: Literal->Literal
 snot (Var x) = (Not x)
 snot (Not x) = (Var x)
