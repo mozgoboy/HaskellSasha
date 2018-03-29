@@ -38,4 +38,3 @@ first :: Disj->Disj
 first (a:as) = [a]
 remove :: Disj->Disj
 remove (a:as) = as
--- gosha comment -- 
