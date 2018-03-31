@@ -20,7 +20,7 @@ simplify (a:as) | test [snot a] as == True = simplify as
                 | otherwise = a : simplify as
 
 
-
+--сщьуе--
 test::Disj->Disj->Bool
 test [] _ = False
 test _ [] = False
