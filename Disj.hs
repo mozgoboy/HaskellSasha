@@ -20,6 +20,27 @@ simplify (a:as) | test [snot a] as == True = simplify as
                 | otherwise = a : simplify as
 
 
+union:: Array->Disj->Array
+union [a] b = [f b a]
+union (a:as) b = (f b a) : union as b
+
+sunion:: Array->Disj->Array
+sunion a b = a ++ union a b
+
+
+testAr:: Array->Disj->Bool
+testAr [a] b | a == b = True
+             | otherwise = False
+testAr (a:as) b | a == b = True
+                | otherwise = testAr as b
+
+delAr:: Array->Disj->Array
+delAr (a:as) b | testAr (a:as) b == False = (a:as)
+
+
+
+
+
 test::Disj->Disj->Bool
 test [] _ = False
 test _ [] = False
