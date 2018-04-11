@@ -45,6 +45,6 @@ proof as | fst (fullPass as [])        = True
           fullPass (a:as) buff | fst (partPass a as [])  = (True, buff)
                                | otherwise               = fullPass as (buff ++ snd (partPass a as []))
 
-
+--asdadsddsadds
 
 --resolution [Var 1,Var 2,Var 5,Var 6,Not 6] [Var 3, Var 4,Not 5,Var 7,Var 8]
