@@ -6,7 +6,7 @@ data Literal = Var Int
              deriving (Show,Read,Eq)
 
 type Disj = [Literal]
-
+--Ilovematis
 snot :: Literal -> Literal
 snot (Var x) = (Not x)
 snot (Not x) = (Var x)
