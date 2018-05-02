@@ -34,9 +34,6 @@ testAr [a] b | a == b = True
 testAr (a:as) b | a == b = True
                 | otherwise = testAr as b
 
-delAr:: Array->Disj->Array
-delAr (a:as) b | testAr (a:as) b == False = (a:as)
-
 
 
 
@@ -50,11 +47,46 @@ test [a] (b:bs) | a == snot b = True
 test (a:as) (b:bs) | test [a] (b:bs) = True
                    | otherwise = test as (b:bs)
 
+proof:: Array -> Bool
+supproof:: Array -> Array
+newbuf:: Array -> Array -> Array -> Array -> Array
+isIn:: Disj -> Array -> Bool
+isEmp:: Array -> Bool
+isEmp [] = False
+isEmp [a] | a == []  = True
+          | otherwise = False
+isEmp (b:bs) | b == [] = True
+             | otherwise = isEmp bs
+
+
+isIn a [] = False
+isIn a [b] | a==b = True
+           | otherwise = False
+isIn a (b:bs) | a==b = True
+              | otherwise = isIn a bs
+
+supproof [a] = []
+supproof as =  newbuf as as as []
+
+newbuf as [] [] buf = buf
+newbuf as [a] [] buf = buf
+newbuf as [a] (b:bs) buf | (isIn (f a b) as) == True = newbuf as [a] bs buf
+                         | otherwise = newbuf as [a] bs ((f a b) : buf)
+newbuf as (b:bs) (c:cs) buf = newbuf as bs (c:cs) (newbuf as [b] (c:cs) buf)
+
+
+proof as |  isEmp as == True = True
+         |   isEmp (supproof as) == True =True
+         |  (supproof as) == [] = False
+         | otherwise  = proof  (as ++ (supproof as))
+
 --commet--
 snot :: Literal->Literal
 snot (Var x) = (Not x)
 snot (Not x) = (Var x)
+
 first :: Disj->Disj
 first (a:as) = [a]
+
 remove :: Disj->Disj
 remove (a:as) = as
