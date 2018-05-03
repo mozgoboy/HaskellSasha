@@ -1,3 +1,4 @@
+import Data.List (length)
 data Literal = Var Int
              | Not Int
              deriving (Show,Read,Eq)
@@ -90,3 +91,17 @@ first (a:as) = [a]
 
 remove :: Disj->Disj
 remove (a:as) = as
+
+
+len1:: Disj-> Bool
+len2::Disj-> Bool
+len3:: Disj->Bool
+
+len1 a | length a == 1 = True
+       | otherwise = False
+
+len2 a | length a == 2 = True
+       | otherwise = False
+
+len3 a | length a > 2 = True
+       | otherwise = False
