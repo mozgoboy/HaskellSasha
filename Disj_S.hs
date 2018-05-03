@@ -6,7 +6,7 @@ data Literal = Var Int
              deriving (Show,Read,Eq)
 
 type Disj = [Literal]
---Ilovematis
+
 snot :: Literal -> Literal
 snot (Var x) = (Not x)
 snot (Not x) = (Var x)
@@ -37,14 +37,16 @@ proof as | fst (fullPass as [])        = True
          | otherwise                   = proof (as ++ snd (fullPass as []))
          where
           partPass :: Disj -> [Disj] -> [Disj] -> (Bool, [Disj])
-          partPass a []     buff = (False, buff)
-          partPass a (b:bs) buff | resolution a b == []  = (True, buff)
-                                 | otherwise             = partPass a bs (resolution a b : buff)
+          partPass [] _     buff = (True, buff)
+          partPass _ []     buff = (False, buff)
+          partPass a (b:bs) buff | resolution a b == []           = (True, buff)
+                                 | (resolution a b) `elem` (b:bs) = partPass a bs buff
+                                 | otherwise                      = partPass a bs (resolution a b : buff)
           fullPass :: [Disj] -> [Disj] -> (Bool, [Disj])
-          fullPass []     buff = (False, buff)
-          fullPass (a:as) buff | fst (partPass a as [])  = (True, buff)
-                               | otherwise               = fullPass as (buff ++ snd (partPass a as []))
+          fullPass   []     buff = (False, buff)
+          fullPass   (a:as) buff | fst (partPass a as [])         = (True, buff)
+                                 | otherwise                      = fullPass as (buff ++ snd (partPass a as []))
 
---asdadsddsadds
+
 
 --resolution [Var 1,Var 2,Var 5,Var 6,Not 6] [Var 3, Var 4,Not 5,Var 7,Var 8]
